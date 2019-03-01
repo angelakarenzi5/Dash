@@ -1,6 +1,6 @@
 from app import create_app,db
 from flask_script import Manager,Server
-from app.models import User,Pitch,Comment
+from app.models import User,Blog,Comment
 from  flask_migrate import Migrate, MigrateCommand
 
 app = create_app('development')
@@ -17,6 +17,6 @@ def test():
     unittest.TextTestRunner(verbosity=2).run(tests)
 @manager.shell
 def make_shell_context():
-    return dict(app = app,db = db,User = User, Pitch = Pitch, Comment = Comment )
+    return dict(app = app,db = db,User = User, Blog = Blog, Comment = Comment )
 if __name__ == '__main__':
     manager.run()

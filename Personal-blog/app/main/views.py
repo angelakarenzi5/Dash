@@ -30,7 +30,7 @@ def create_blogs():
         category = form.category.data
         content = form.content.data 
 
-        new_blog = Blog(description=content, category = category, user=current_user)
+        new_blog = Blog(description=content, user=current_user)
         new_blog.save_blog()
 
         return redirect(url_for('main.index'))

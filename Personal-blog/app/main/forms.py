@@ -6,13 +6,12 @@ from ..models import User
 class CommentForm(FlaskForm):
 
     # title = StringField('Review title',validators=[Required()])
-    comment = TextAreaField('Pitch comment', validators=[Required()])
+    comment = TextAreaField('Blog comment', validators=[Required()])
     submit = SubmitField('Submit')
 class UpdateProfile(FlaskForm):
     bio = TextAreaField('Tell us about you.',validators = [Required()])
     submit = SubmitField('Submit')
 
 class AddBlogForm(FlaskForm):
-    category = SelectField('Category:', choices=[('pickup-lines' , 'Pickup lines'),('Interview-pitch', 'Interview pitch'), ('Promotion-pitch','Promotion pitch')])
-    content = TextAreaField ('Pitch', validators = [Required()])
+    content = TextAreaField ('Blog', validators = [Required()])
     submit = SubmitField('SUBMIT')
