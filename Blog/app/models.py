@@ -45,13 +45,13 @@ def load_user(user_id):
   return User.query.get(int(user_id))   
 
 class Blog(db.Model):
-    __tablename__ = 'blog'
+    __tablename__ = 'blogs'
 
     id = db.Column(db.Integer,primary_key = True)
     title = db.Column(db.String())
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
     description = db.Column(db.String(255))
-    comment = db.relationship('Comment',backref = 'blog',lazy='dynamic')
+    comments = db.relationship('Comment',backref = 'blog',lazy='dynamic')
 
 
     def save_blog(self):
@@ -60,19 +60,23 @@ class Blog(db.Model):
     @classmethod
     def clear_blogs(cls):
         Blog.search_blogs.clear()
+
     @classmethod
-    def get_bloge(cls,blog_id):
-        bloge=Blog.query.filter_by(user_id=id).all()
-        return bloge
-    @classmethod 
     def get_blogs(cls):
-        blogs = Blog.query.filter_by().all()
-        return Blogs
+        blogs=Blogs.query.all()
+        return blogs
     
 
+    def delete_blog(self):
+        comments = Comment.query.filter_by(blog_id=id).all()
+        db.session.delete(comments)
+        db.session.commit()
+        db.session.delete(self)
+        db.session.commit()
+    
 
 class Comment(db.Model):
-    __tablename__ = 'comment'
+    __tablename__ = 'comments'
 
     id = db.Column(db.Integer,primary_key = True)
     name = db.Column(db.String())
@@ -80,26 +84,23 @@ class Comment(db.Model):
     content = db.Column(db.String(255))
 
 
-
-    @classmethod
     def save_comment(self):
         db.session.add(self)
         db.session.commit()
 
     @classmethod
-    def clear_blogs(cls):
-        Blog.all_blogs.clear()
+    def clear_comments(cls):
+        Comment.all_comments.clear()
 
     @classmethod
-    def get_blogz(cls):
-        blogz=Blog.query.filter_by().all()
-        return blogz
-
-    @classmethod 
-    def get_bloge(cls):
-        bloge = Blog.query.filter_by().all()
-        return bloge 
+    def get_comments(cls,id):
+        comments=Comment.query.filter_by(blog_id).all()
+        return comments
     
+
+    def delete_comment(self):
+        db.session.delete(self)
+        db.session.commit()
 
 
 class PhotoProfile(db.Model):
