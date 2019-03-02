@@ -10,9 +10,10 @@ class Quote:
   Quote class to define quote objects
   '''
 
-
-
-
+  def __init__(self,id,author,content):
+    self.id=id
+    self.author=author
+    self.content=content
 
 
 class User(UserMixin,db.Model):
@@ -81,7 +82,7 @@ class Comment(db.Model):
 
 
     @classmethod
-    def sace_comment(self):
+    def save_comment(self):
         db.session.add(self)
         db.session.commit()
 
