@@ -10,21 +10,19 @@ def configure_request(app):
     global api_key,base_url
     base_url = app.config['QUOTE_API_BASE_URL']
 
-def get_quotes(category):
-    '''
-    Function that gets the json response to our url request
-    '''
-    get_quotes_url = base_url.format(category,api_key)
+def get_quotes():
+    
 
-    with urllib.request.urlopen(get_quotes_url) as url:
+    with urllib.request.urlopen(base_url) as url:
         get_quotes_data = url.read()
         get_quotes_response = json.loads(get_quotes_data)
 
-        quote_results = None
+        quote_object = None
 
-        if get_quotes_response['results']:
-            quote_results_list = get_quotes_response['results']
-            quote_results = process_results(quote_results_list)
+        if get_quotes_response:
+           id=get_quote_response.get('id')
+           author=get_quote_reponse.get('author')
+           content=get_quote_response.get('quote')
+           quote_object=Quote(id,author,content)           
 
-
-    return quote_results
+        return quote_object

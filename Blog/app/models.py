@@ -2,24 +2,25 @@ from . import db
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
 from . import login_manager
-from datetime import datetime 
 
 
-class Quote:
-  '''
-  Quote class to define quote objects
-  '''
+# class Quote:
+#   '''
+#   Quote class to define quote objects
+#   '''
 
-  def __init__(self,id,author,content):
-    self.id=id
-    self.author=author
-    self.content=content
+#   def __init__(self,id,author,content):
+#     self.id=id
+#     self.author=author
+#     self.content=content
 
 
 class User(UserMixin,db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer,primary_key = True)
     username = db.Column(db.String(255))
+    profile_pic_path = db.Column(db.String(255))
+    bio=db.Column(db.String(255))
     email = db.Column(db.String(255),unique = True,index = True)
     hash_pass = db.Column(db.String(255)) 
     
@@ -67,12 +68,12 @@ class Blog(db.Model):
         return blogs
     
 
-    def delete_blog(self):
-        comments = Comment.query.filter_by(blog_id=id).all()
-        db.session.delete(comments)
-        db.session.commit()
-        db.session.delete(self)
-        db.session.commit()
+    # def delete_blog(self):
+    #     comments = Comment.query.filter_by(blog_id=id).all()
+    #     db.session.delete(comments)
+    #     db.session.commit()
+    #     db.session.delete(self)
+    #     db.session.commit()
     
 
 class Comment(db.Model):
@@ -80,7 +81,7 @@ class Comment(db.Model):
 
     id = db.Column(db.Integer,primary_key = True)
     name = db.Column(db.String())
-    blog_id = db.Column(db.Integer,db.ForeignKey("blog.id"))
+    blog_id = db.Column(db.Integer,db.ForeignKey("blogs.id"))
     content = db.Column(db.String(255))
 
 
@@ -112,5 +113,10 @@ class PhotoProfile(db.Model):
     
 
 
+# class Subscription(db.Model):
+#     __tablename__='subscribers'
 
+#     id=db.Column(db.Integer,primary_key=True)
+#     name=db.Column(db.String(255))
+#     email =db.Column(db.String(255), unique = True , index = True)
 

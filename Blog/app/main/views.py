@@ -1,9 +1,8 @@
 from flask import render_template,request,redirect,url_for,abort
-from ..models import Comment,Blog,User
+from ..models import Comment,Blog,User,PhotoProfile
 from . import main
 from .forms import UpdateProfile,CommentForm,UpdateProfile,AddBlogForm
 from ..import db,photos
-from .requests import get_quotes,get_quote
 from flask_login import login_required, current_user
 # Views
 
@@ -14,9 +13,9 @@ def index():
     View root page function that returns the index page and its data
     '''
 
-    title = 'Home - Welcome to The best Blog Review Website Online'
+    title = 'Home - Welcome to The best Pitches Review Website Online'
     all_blogs = Blog.query.all()
-    # comments = Comment.query.filter_by(blog_id = id).all()
+    # comments = Comment.query.filter_by(pitch_id = id).all()
  
     return render_template('index.html', title = title, all_blogs= all_blogs)
 
@@ -28,21 +27,18 @@ def create_blogs():
 
 
     if form.validate_on_submit():
-        blog_title = form.title.data
+        category = form.category.data
         content = form.content.data 
 
-        new_blog = Blog(title=blog_title description=content)
+        new_blog = Blog(description=content,user=current_user)
         new_blog.save_blog()
 
-       send_blogs(new_blog)
-       return redirect(url_for('main.index',id=new_blog.id))
-
-
-        return redirect(url_for('main.index', id=new_blog.id))
+        return redirect(url_for('main.index'))
 
     all_blogs = Blog.query.all()
-
-    return render_template('blogs.html',title = ''Create blog', form=form)
+       
+    title = 'Feel free to add a pitch'
+    return render_template('blogs.html',title = title, form=form)
 
 
 @main.route('/comment/new/<int:id>', methods = ['GET','POST'])
@@ -55,7 +51,7 @@ def create_comments(id):
 
         comment = form.comment.data
 
-        new_comment =Comment(content = comment , blog=blog, user=current_user)
+        new_comment =Comment(content = comment , blog= blog, user=current_user)
         db.session.add(new_comment)
         db.session.commit()
 
@@ -68,15 +64,7 @@ def create_comments(id):
 def blog(id):
     blog=Blog.get_bloge(id)
 
-    if get_blog is None:
-        abort(404)
-
-
-    get_blog = Blog.query.all(id)
-
     return render_template('blog.html',blog=blog)
-
-
 
 @main.route('/user/<uname>')
 def profile(uname):
@@ -90,7 +78,7 @@ def profile(uname):
 @main.route('/user/<uname>/update',methods = ['GET','POST'])
 @login_required
 def update_profile(uname):
-    blog = Blog.query.filter_by(username = uname).first()
+    user = User.query.filter_by(username = uname).first()
     if user is None:
         abort(404)
 
@@ -107,11 +95,11 @@ def update_profile(uname):
     return render_template('profile/update.html',form =form)
 @main.route('/user/<uname>/update/pic',methods= ['POST'])
 @login_required
-def update_pic(id):
-    blog = Blog.get_single_blog(id)
+def update_pic(uname):
+    user = User.query.filter_by(username = uname).first()
     if 'photo' in request.files:
         filename = photos.save(request.files['photo'])
         path = f'photos/{filename}'
-        blog.profile_pic_path = path
+        user.profile_pic_path = path
         db.session.commit()
-    return redirect(url_for('main.profile',id=id))
+    return redirect(url_for('main.profile',uname=uname))
