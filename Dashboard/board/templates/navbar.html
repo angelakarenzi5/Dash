@@ -1,0 +1,42 @@
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
+      <a class="navbar-brand" href="{% url 'board' %}">TRUCKER</a>
+      </div>
+      <div class="col-sm-6 col-md-6">
+        {% if user.is_authenticated %}
+        <!-- <ul>
+            <li>
+                <a href="{%url 'board'%}">Home</a>
+            </li>
+            <li>
+                <a href="{%url 'board'%}">Home</a>
+            </li>
+            <li>
+                <a href="{%url 'board'%}">Home</a>
+            </li>
+            <li>
+                <a href="{%url 'board'%}">Home</a>
+            </li>
+
+        </ul> -->
+        {% else %}
+        <li>
+          <a class='btn btn-default' href="/accounts/login">Login</a>
+        </li>
+  
+        {% endif %}
+      </div>
+    </div>
+</nav>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- The sidebar -->
+<div class="sidebar">
+  <a href="#home"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a href="#dashboard"><i class="fa fa-fw fa-wrench"></i>Dashboard</a>
+  <a href="#map"><i class="fa fa-fw fa-user"></i>Map</a>
+</div>
+  
