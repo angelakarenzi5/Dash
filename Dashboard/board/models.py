@@ -15,3 +15,18 @@ def save_profile(self):
 
 class Meta:
         ordering = ['user_name']
+
+class Trucker(models.Model):
+        drivers_name = models.CharField(max_length =100)
+        trucking_numbers = models.IntegerField()
+        state_of_product = models.CharField(max_length =100)
+
+        
+def __str__(self):
+        return self.user_name
+        
+def save_trucker(self):
+        self.save()
+
+class Meta:
+        ordering = ['user_name']

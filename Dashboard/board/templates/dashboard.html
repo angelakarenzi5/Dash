@@ -1,0 +1,33 @@
+{%extends 'base.html'%}
+{% load bootstrap3 %}
+
+<body>
+{% block content %}
+{{block.super}}
+    
+   {% for board_item in board %}
+
+  <table>
+    <tr>
+      <th>Drivers Name</th>
+      <th>Trucking Numbers</th>
+      <th>State of Products</th>
+    </tr>
+  
+    <tr>
+      <th>{{board_item.drivers_name}}</th>
+      <th>{{board_item.trucking_numbers}}</th>
+      <th>{{board_item.state_of_product }}</th>
+    </tr> 
+  </table>
+
+  {% empty %}
+   <div class="row">
+     <h2 class="text-center">There No pictures Items</h2>
+   </div>
+   {% endfor %}
+</div>
+</div>
+ </div>
+{% endblock %}
+</body>
